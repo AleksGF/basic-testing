@@ -1,30 +1,64 @@
-// Uncomment the code below and write your tests
-// import { throwError, throwCustomError, resolveValue, MyAwesomeError, rejectCustomError } from './index';
+import {
+  throwError,
+  throwCustomError,
+  resolveValue,
+  MyAwesomeError,
+  rejectCustomError,
+} from './index';
 
 describe('resolveValue', () => {
+  const values: unknown[] = [
+    1,
+    'foo',
+    true,
+    {},
+    undefined,
+    NaN,
+    null,
+    0,
+    +0,
+    -0,
+    Infinity,
+    -Infinity,
+    [],
+    [1, 2, 3],
+    new Set([1, 2, 3]),
+    new Map(),
+  ];
+
   test('should resolve provided value', async () => {
-    // Write your test here
+    for (const value of values) {
+      expect(await resolveValue(value)).toEqual(value);
+    }
   });
 });
 
 describe('throwError', () => {
+  const msg = 'Error message';
+
   test('should throw error with provided message', () => {
-    // Write your test here
+    expect(() => {
+      throwError(msg);
+    }).toThrow(msg);
   });
 
   test('should throw error with default message if message is not provided', () => {
-    // Write your test here
+    expect(() => {
+      throwError();
+    }).toThrow('Oops!');
   });
 });
 
 describe('throwCustomError', () => {
   test('should throw custom error', () => {
-    // Write your test here
+    expect(() => {
+      throwCustomError();
+    }).toThrow(MyAwesomeError);
   });
 });
 
 describe('rejectCustomError', () => {
   test('should reject custom error', async () => {
-    // Write your test here
+    await expect(rejectCustomError()).rejects.toThrow(MyAwesomeError);
   });
 });
